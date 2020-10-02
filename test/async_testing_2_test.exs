@@ -1,5 +1,5 @@
 defmodule AsyncTestingTest2 do
-  use AsyncTesting.RepoCase, async: true
+  use AsyncTesting.RepoCase, async: false
   doctest AsyncTesting
 
   test "can put into bucket 1" do

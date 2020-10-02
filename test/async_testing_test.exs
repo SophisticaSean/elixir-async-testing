@@ -1,5 +1,5 @@
 defmodule AsyncTestingTest do
-  use AsyncTesting.RepoCase, async: true
+  use AsyncTesting.RepoCase, async: false
   doctest AsyncTesting
 
   test "greets the world" do
