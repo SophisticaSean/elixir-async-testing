@@ -8,3 +8,5 @@ config :async_testing, AsyncTesting.Repo,
   port: 5433,
   pool: Ecto.Adapters.SQL.Sandbox
 
+config :mox,
+  :registry_manager, KV.Registry.ManagerMock

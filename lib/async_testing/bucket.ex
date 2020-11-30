@@ -11,12 +11,12 @@ defmodule KV.Bucket do
   @doc """
   Gets a value from the `bucket` by `key`.
   """
-  def get(server, bucket, key) do
+  def get(bucket, key) do
     :timer.sleep(200)
     case Agent.get(bucket, &Map.get(&1, key)) do
       nil ->
         #new_bucket = AsyncTesting.Bucket.get(key)
-        new_bucket = KV.Registry.get_value(server, key)
+        new_bucket = KV.Registry.get_value(key)
         Agent.update(bucket, &Map.put(&1, key, new_bucket.value))
         new_bucket
       value ->

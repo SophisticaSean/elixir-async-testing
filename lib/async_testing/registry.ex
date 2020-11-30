@@ -3,6 +3,8 @@ defmodule KV.Registry do
 
   alias Ecto.Adapters.SQL.Sandbox
 
+  @registry_manager Application.compile_env(:mox, :registry_manager, KV.Registry.Manager)
+
   @doc """
   Starts the registry.
   """
@@ -15,22 +17,22 @@ defmodule KV.Registry do
 
   Returns `{:ok, pid}` if the bucket exists, `:error` otherwise.
   """
-  def lookup(server, name) do
-    GenServer.call(server, {:lookup, name})
+  def lookup(name) do
+    GenServer.call(@registry_manager.get_server(), {:lookup, name})
   end
 
   @doc """
   Ensures there is a bucket associated with the given `name` in `server`.
   """
-  def create(server, name) do
-    GenServer.cast(server, {:create, name})
+  def create(name) do
+    GenServer.cast(@registry_manager.get_server(), {:create, name})
   end
 
   @doc """
   Ensures there is a bucket associated with the given `name` in `server`.
   """
-  def get_value(server, key) do
-    GenServer.call(server, {:get_value, key})
+  def get_value(key) do
+    GenServer.call(@registry_manager.get_server(), {:get_value, key})
   end
 
   ## Defining GenServer Callbacks
