@@ -1,11 +1,13 @@
 defmodule KV.Registry do
   use GenServer
 
+  alias Ecto.Adapters.SQL.Sandbox
+
   @doc """
   Starts the registry.
   """
   def start_link(opts) do
-    GenServer.start_link(__MODULE__, :ok, opts)
+    GenServer.start_link(__MODULE__, {:ok, Keyword.get(opts, :test_pid, nil)}, opts)
   end
 
   @doc """
@@ -27,14 +29,17 @@ defmodule KV.Registry do
   @doc """
   Ensures there is a bucket associated with the given `name` in `server`.
   """
-  def get_value(key) do
-    GenServer.call(KV.Registry, {:get_value, key})
+  def get_value(server, key) do
+    GenServer.call(server, {:get_value, key})
   end
 
   ## Defining GenServer Callbacks
 
   @impl true
-  def init(:ok) do
+  def init({:ok, parent_pid}) do
+    if parent_pid != nil do
+      :ok = Sandbox.allow(AsyncTesting.Repo, parent_pid, self())
+    end
     names = %{}
     refs = %{}
     {:ok, {names, refs}}

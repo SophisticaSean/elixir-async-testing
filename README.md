@@ -10,4 +10,8 @@ This was tested on Elixir 1.10.4 on OTP version 23. To install:
 
 You'll also need to install postgres locally or in a docker container and tweak the values in `config/test.exs` accordingly.
 
+You'll need to create and migrate the database to run the tests:
+ - MIX_ENV=test mix ecto.create
+ - MIX_ENV=test mix ecto.migrate
+
 Run `mix test` to run the tests in the branch you're interested in. This repo is a companion repo to (this article on Medium.]()
