@@ -11,15 +11,15 @@ defmodule AsyncTestingTest2 do
     assert AsyncTesting.hello() == :world
   end
 
-  test "can create a bucket"  do
+  test "can create a bucket", %{registry: registry}  do
     bucket_id = Ecto.UUID.generate()
-    :ok = KV.Registry.create(KV.Registry, bucket_id)
+    :ok = KV.Registry.create(registry, bucket_id)
 
-    {:ok, bucket} = KV.Registry.lookup(KV.Registry, bucket_id)
+    {:ok, bucket} = KV.Registry.lookup(registry, bucket_id)
 
-    :ok = KV.Registry.create(KV.Registry, bucket_id)
+    :ok = KV.Registry.create(registry, bucket_id)
 
-    assert {:ok, ^bucket} = KV.Registry.lookup(KV.Registry, bucket_id)
+    assert {:ok, ^bucket} = KV.Registry.lookup(registry, bucket_id)
   end
 
   test "can put into bucket 1", %{registry: registry} do
