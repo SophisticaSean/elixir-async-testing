@@ -1,4 +1,5 @@
 # AsyncTesting
+This repo is built as a companion to this article: https://sensaisean.medium.com/elixir-concurrent-testing-architecture-13c5e37374dc
 
 This was tested on Elixir 1.10.4 on OTP version 23. To install:
 
