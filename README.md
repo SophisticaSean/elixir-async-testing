@@ -43,3 +43,4 @@ Run `mix test` to run the tests in the branch you're interested in. This repo is
      };
 ```
   - run_tests 4 (argument is the number of parallel mix test partitions to run)
+ - Tweak the `loop_count` variables in config/test.exs to compare ecto vs timer.sleep workload simulation.

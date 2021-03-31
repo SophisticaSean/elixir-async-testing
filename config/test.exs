@@ -12,3 +12,7 @@ config :async_testing, AsyncTesting.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :mox, :registry_manager, KV.Registry.ManagerMock
+
+config :async_testing,
+  ecto_loop_count: 10,
+  timer_sleep_loop_count: 1000

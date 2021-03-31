@@ -269,8 +269,9 @@ defmodule AsyncTestingTest22 do
     end)
   end
 
-  test "complex user test" do
-    Enum.each(1..1000, fn x ->
+  test "complex ecto user test" do
+    loop_count = Application.get_env(:async_testing, :ecto_loop_count)
+    Enum.each(1..loop_count, fn x ->
       email = Ecto.UUID.generate()
       name = "Tim#{x}"
       {:ok, user} = User.create(name, email)
@@ -280,6 +281,21 @@ defmodule AsyncTestingTest22 do
       user = User.get_by_email(email)
       assert user.name == name
       assert user.email == email
+    end)
+  end
+
+  test "complex timer sleep test" do
+    loop_count = Application.get_env(:async_testing, :timer_sleep_loop_count)
+    Enum.each(1..loop_count, fn x ->
+      email = Ecto.UUID.generate()
+      name = "Tim#{x}"
+      assert is_binary(email)
+      assert is_binary(name)
+      :timer.sleep(6)
+      email = Ecto.UUID.generate()
+      name = "Tim#{x}"
+      assert is_binary(email)
+      assert is_binary(name)
     end)
   end
 end
