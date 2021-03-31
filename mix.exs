@@ -3,6 +3,7 @@ defmodule AsyncTesting.MixProject do
 
   def project do
     [
+      aliases: aliases(),
       app: :async_testing,
       version: "0.1.0",
       elixir: "~> 1.10",
@@ -32,4 +33,10 @@ defmodule AsyncTesting.MixProject do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp aliases() do
+    [
+      "ecto.reset": ["ecto.drop", "ecto.create", "ecto.migrate"]
+    ]
+  end
 end
