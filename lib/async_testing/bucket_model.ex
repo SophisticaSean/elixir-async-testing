@@ -1,10 +1,10 @@
 defmodule AsyncTesting.Bucket do
-  use Ecto.Schema
+  use AsyncTesting.Schema
   require Ecto.Query
 
   schema "buckets" do
-    field :name, :string
-    field :value, :string
+    field(:name, :string)
+    field(:value, :string)
   end
 
   def changeset(bucket, params \\ %{}) do

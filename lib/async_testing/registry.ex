@@ -42,6 +42,7 @@ defmodule KV.Registry do
     if parent_pid != nil do
       :ok = Sandbox.allow(AsyncTesting.Repo, parent_pid, self())
     end
+
     names = %{}
     refs = %{}
     {:ok, {names, refs}}
@@ -55,7 +56,6 @@ defmodule KV.Registry do
 
   @impl true
   def handle_call({:get_value, key}, _from, state) do
-    IO.inspect(key, label: :get_value)
     new_bucket = AsyncTesting.Bucket.get(key)
     {:reply, new_bucket, state}
   end
