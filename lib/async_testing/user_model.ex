@@ -20,6 +20,15 @@ defmodule AsyncTesting.User do
     |> AsyncTesting.Repo.insert()
   end
 
+  def sleep(duration) when is_binary(duration) do
+    AsyncTesting.Repo.query!("SELECT pg_sleep(#{duration});")
+    :ok
+  end
+
+  def sleep(_duration) do
+    {:error, :invalid_args}
+  end
+
   def get_by_name(name) do
     AsyncTesting.User
     |> Ecto.Query.where(name: ^name)

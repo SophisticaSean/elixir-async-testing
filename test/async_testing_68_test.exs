@@ -49,19 +49,28 @@ defmodule AsyncTestingTest68 do
     end)
   end
 
+  test "complex ecto database sleep test" do
+    loop_count = Application.get_env(:async_testing, :ecto_user_sleep_loop_count)
+    duration = Application.get_env(:async_testing, :ecto_user_sleep_duration)
+
+    Enum.each(1..loop_count, fn _x ->
+        assert :ok = User.sleep(duration)
+    end)
+  end
+
   test "complex ecto user test" do
-    loop_count = Application.get_env(:async_testing, :ecto_loop_count)
+    loop_count = Application.get_env(:async_testing, :ecto_user_create_loop_count)
 
     Enum.each(1..loop_count, fn x ->
-      email = Ecto.UUID.generate()
-      name = "Tim#{x}"
-      {:ok, user} = User.create(name, email)
-      assert user.name == name
-      assert user.email == email
+        email = Ecto.UUID.generate()
+        name = "Tim#{x}"
+        {:ok, user} = User.create(name, email)
+        assert user.name == name
+        assert user.email == email
 
-      user = User.get_by_email(email)
-      assert user.name == name
-      assert user.email == email
+        user = User.get_by_email(email)
+        assert user.name == name
+        assert user.email == email
     end)
   end
 
