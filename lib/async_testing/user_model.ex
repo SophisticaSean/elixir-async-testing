@@ -29,6 +29,11 @@ defmodule AsyncTesting.User do
     {:error, :invalid_args}
   end
 
+  def select_one() do
+    AsyncTesting.Repo.query!("SELECT 1;")
+    :ok
+  end
+
   def get_by_name(name) do
     AsyncTesting.User
     |> Ecto.Query.where(name: ^name)

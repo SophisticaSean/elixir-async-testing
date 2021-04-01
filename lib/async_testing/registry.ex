@@ -40,7 +40,9 @@ defmodule KV.Registry do
   @impl true
   def init({:ok, parent_pid}) do
     if parent_pid != nil do
-      :ok = Sandbox.allow(AsyncTesting.Repo, parent_pid, self())
+      if Application.get_env(:async_testing, :sandbox_pool_enabled?) do
+        :ok = Sandbox.allow(AsyncTesting.Repo, parent_pid, self())
+      end
     end
 
     names = %{}

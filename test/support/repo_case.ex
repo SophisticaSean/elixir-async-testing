@@ -14,7 +14,9 @@ defmodule AsyncTesting.RepoCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(AsyncTesting.Repo)
+    if Application.get_env(:async_testing, :sandbox_pool_enabled?) do
+      :ok = Ecto.Adapters.SQL.Sandbox.checkout(AsyncTesting.Repo)
+    end
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(AsyncTesting.Repo, {:shared, self()})
