@@ -52,18 +52,16 @@ defmodule AsyncTestingTest23 do
   test "complex ecto user test" do
     loop_count = Application.get_env(:async_testing, :ecto_loop_count)
 
-    AsyncTesting.Repo.checkout(fn ->
-      Enum.each(1..loop_count, fn x ->
-        email = Ecto.UUID.generate()
-        name = "Tim#{x}"
-        {:ok, user} = User.create(name, email)
-        assert user.name == name
-        assert user.email == email
+    Enum.each(1..loop_count, fn x ->
+      email = Ecto.UUID.generate()
+      name = "Tim#{x}"
+      {:ok, user} = User.create(name, email)
+      assert user.name == name
+      assert user.email == email
 
-        user = User.get_by_email(email)
-        assert user.name == name
-        assert user.email == email
-      end)
+      user = User.get_by_email(email)
+      assert user.name == name
+      assert user.email == email
     end)
   end
 
