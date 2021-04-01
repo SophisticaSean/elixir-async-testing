@@ -14,5 +14,5 @@ config :async_testing, AsyncTesting.Repo,
 config :mox, :registry_manager, KV.Registry.ManagerMock
 
 config :async_testing,
-  ecto_loop_count: 10,
-  timer_sleep_loop_count: 1000
+  ecto_loop_count: 1000,
+  timer_sleep_loop_count: 10
