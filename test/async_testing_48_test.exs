@@ -60,8 +60,10 @@ defmodule AsyncTestingTest48 do
 
   test "ecto database select_1 test" do
     loop_count = Application.get_env(:async_testing, :ecto_user_select_1_loop_count)
-    Enum.each(1..loop_count, fn _x ->
-        assert :ok = User.select_one()
+    AsyncTesting.Repo.checkout(fn ->
+      Enum.each(1..loop_count, fn _x ->
+          assert :ok = User.select_one()
+      end)
     end)
   end
 
