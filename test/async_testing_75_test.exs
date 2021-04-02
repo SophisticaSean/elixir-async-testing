@@ -4,6 +4,8 @@ defmodule AsyncTestingTest75 do
 
   alias AsyncTesting.User
 
+  @config AsyncTesting.Repo.config()
+
   setup do
     registry = start_supervised!({KV.Registry, name: __MODULE__, test_pid: self()})
     Hammox.stub(KV.Registry.ManagerMock, :get_server, fn -> registry end)
@@ -58,12 +60,22 @@ defmodule AsyncTestingTest75 do
     end)
   end
 
+  @tag :select_1
   test "ecto database select_1 test" do
     loop_count = Application.get_env(:async_testing, :ecto_user_select_1_loop_count)
     AsyncTesting.Repo.checkout(fn ->
       Enum.each(1..loop_count, fn _x ->
           assert :ok = User.select_one()
       end)
+    end)
+  end
+
+  @tag :manual_postgrex
+  test "manual postgrex select_1 test" do
+    loop_count = Application.get_env(:async_testing, :manual_postgrex_loop_count)
+    {:ok, pid} = Postgrex.start_link(@config)
+    Enum.each(1..loop_count, fn _x ->
+      Postgrex.query!(pid, "SELECT 1;", [])
     end)
   end
 
